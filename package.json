@@ -24,20 +24,17 @@
   "homepage": "https://github.com/vithalreddy/node-mailin",
   "dependencies": {
     "bluebird": "^3.5.1",
-    "commander": "^2.8.1",
-    "dkim": "^0.4.1",
+    "dkim": "^0.7.2",
     "extend": "^3.0.1",
-    "forever-monitor": "^1.5.2",
-    "html-to-text": "^4.0.0",
     "languagedetect": "^1.1.1",
     "lodash": ">=4.17.11",
-    "mailparse": "^2.2.2",
+    "mailparser": "^3.3.1",
     "semver": "^5.0.1",
     "shelljs": "^0.8.2",
-    "smtp-server": "^3.4.4",
+    "smtp-server": "^3.9.0",
     "spamc": "github:mickael-btc/node-spamc",
     "spf-validator": "^0.2.0",
-    "uuid": "^3.2.1",
-    "winston": "^2.4.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   }
 }
