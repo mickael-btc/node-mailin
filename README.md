@@ -24,12 +24,11 @@ To handle the spam score computation, Node-Mailin depends on spamassassin and it
 
 Spamassassin is not enabled by default, enable it in with update-rc.d spamassassin enable command.
 
-```bash
+```
 sudo aptitude install spamassassin spamc
 sudo update-rc.d spamassassin enable
 sudo service spamassassin start
 ```
-
 
 #### Node versions
 
@@ -54,40 +53,6 @@ Install Node-Mailin globally.
 npm i https://github.com/mickael-btc/node-mailin.git
 ```
 
-Run it, (addtionnal help can be found using `node-mailin --help`). By default, Node-Mailin will listen on port 25, the standard smtp port. you can change this port for testing purpose using the `--port` option. However, do not change this port if you want to receive emails from the real world.
-
-Ports number under 1000 are reserved to root user. So two options here. Either run Node-Mailin as root:
-
-```
-sudo node-mailin --port 25
-```
-
-Or, prefered choice, use something like `authbind` to run Node-Mailin with a standard user while still using port 25.
-Here comes a [tutorial on how to setup authbind](http://respectthecode.tumblr.com/post/16461876216/using-authbind-to-run-node-js-on-port-80-with-dreamhost). In this case, do something like:
-
-```
-authbind --deep node-mailin --port 25
-```
-
-and make sure that your user can write to the log file.
-
-At this point, Node-Mailin will listen for incoming emails, parse them, Then you can store them wherever you want.
-
-##### Gotchas
-
-- `error: listen EACCES`: your user do not have sufficients privileges to run on the given port. Ports under 1000 are restricted to root user. Try with [sudo](http://xkcd.com/149/).
-- `error: listen EADDRINUSE`: the current port is already used by something. Most likely, you are trying to use port 25 and your machine's [mail transport agent](http://en.wikipedia.org/wiki/Message_transfer_agent) is already running. Stop it with something like `sudo service exim4 stop` or `sudo service postfix stop` before using Node-Mailin.
-- `error: Unable to compute spam score ECONNREFUSED`: it is likely that spamassassin is not enabled on your machine, check the `/etc/default/spamassassin` file.
-- `node: command not found`: most likely, your system does not have node installed or it is installed with a different name. For instance on Debian/Ubuntu, the node interpreter is called nodejs. The quick fix is making a symlink: `ln -s $(which nodejs) /usr/bin/node` to make the node command available.
-- `Uncaught SenderError: Mail from command failed - 450 4.1.8 <an@email.address>: Sender address rejected: Domain not found`: The smtpOption `disableDNSValidation` is set to `false` and an email was sent from an invalid domain.
-
-#### Embedded inside a node application
-
-Install node-mailin locally.
-
-```
-sudo npm install --save node-mailin
-```
 
 Start the node-mailin server and listen to events.
 
@@ -169,7 +134,7 @@ nodeMailin.on("error", function(error) {
 ##### Rejecting an incoming email
 
 You can reject an incoming email when the **validateRecipient** or **validateSender** event gets called and you run the callback with an error (Can be anything you want, preferably an [actual SMTP server return code](https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes))
-```JavaScript
+```javascript
 nodeMailin.on('validateSender', async function(session, address, callback) {
     if (address == 'foo@bar.com') {         /*blacklist a specific email adress*/
         err = new Error('Email address was blacklisted'); /*Will be the SMTP server response*/
@@ -180,6 +145,13 @@ nodeMailin.on('validateSender', async function(session, address, callback) {
     }
 });
 ```
+
+##### Gotchas
+- `error: listen EACCES`: your user do not have sufficients privileges to run on the given port. Ports under 1000 are restricted to root user. Try with [sudo](http://xkcd.com/149/).
+- `error: listen EADDRINUSE`: the current port is already used by something. Most likely, you are trying to use port 25 and your machine's [mail transport agent](http://en.wikipedia.org/wiki/Message_transfer_agent) is already running. Stop it with something like `sudo service exim4 stop` or `sudo service postfix stop` before using Node-Mailin.
+- `error: Unable to compute spam score ECONNREFUSED`: it is likely that spamassassin is not enabled on your machine, check the `/etc/default/spamassassin` file.
+- `node: command not found`: most likely, your system does not have node installed or it is installed with a different name. For instance on Debian/Ubuntu, the node interpreter is called nodejs. The quick fix is making a symlink: `ln -s $(which nodejs) /usr/bin/node` to make the node command available.
+- `Uncaught SenderError: Mail from command failed - 450 4.1.8 <an@email.address>: Sender address rejected: Domain not found`: The smtpOption `disableDNSValidation` is set to `false` and an email was sent from an invalid domain.
 
 
 ##### Events
