@@ -51,7 +51,7 @@ You can fire up Node-Mailin (see next section) and use an [smtp server tester](h
 Install Node-Mailin globally.
 
 ```
-sudo npm install -g node-mailin
+npm i https://github.com/mickael-btc/node-mailin.git
 ```
 
 Run it, (addtionnal help can be found using `node-mailin --help`). By default, Node-Mailin will listen on port 25, the standard smtp port. you can change this port for testing purpose using the `--port` option. However, do not change this port if you want to receive emails from the real world.
