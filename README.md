@@ -164,13 +164,8 @@ nodeMailin.on('validateSender', async function(session, address, callback) {
 - **message** _(connection, data, content)_ - Message was received and parsed.
 - **error** _(error)_ - And Error Occured.
 
-### Todo
-
-webhooks.
-
-Docs: [StackFame Tech Blog](https://stackfame.com/receive-inbound-emails-node-js)
 
 ### Credits
 
-- Postman image copyright [Charlie Allen](http://charlieallensblog.blogspot.fr).
-- Heavily Inspired by mailin NPM Module.
+- Postman image copyright [Charlie Allen](http://charlieallensblog.blogspot.fr)
+- Forked from https://github.com/vithalreddy/node-mailin
